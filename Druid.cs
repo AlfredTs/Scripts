@@ -5,9 +5,14 @@ public class Druid : MonoBehaviour {
 
 	//Settings
 	public float baseHealth = 100;
+
 	public float baseMovementSpeed = 10;
 	public float jumpForce = 10;
+
+
 	public Vector3[] touchNormals;
+
+	public float miceMovementSpeed;
 	//State
 	public float curHealth;
 	public float curMovmentSpeed;
@@ -58,7 +63,10 @@ public class Druid : MonoBehaviour {
 
 	#region movment
 	public void UpdateMovement(Vector3 dir) {
-		transform.Translate(dir*curMovmentSpeed*Time.deltaTime, Space.World);
+		if(curShape!=shapeshiftStates.stone){
+			
+			transform.Translate(dir*curMovmentSpeed*Time.deltaTime, Space.World);
+		}
 	}
 
 	public bool DoJump() {
@@ -118,6 +126,25 @@ public class Druid : MonoBehaviour {
 	#region shapeShifting 
 	public bool shiftToState(shapeshiftStates state) {
 		curShape = state;
+		switch (state) {
+		case shapeshiftStates.druid:
+			curMovmentSpeed = baseMovementSpeed;
+			break;
+
+		case shapeshiftStates.stone:
+			curMovmentSpeed = 0;
+			break;
+
+		case shapeshiftStates.mouse:
+			curMovmentSpeed = miceMovementSpeed;
+
+			break;
+		case shapeshiftStates.fish:
+			break;
+		case shapeshiftStates.project:
+			curMovmentSpeed = baseMovementSpeed;
+			break;
+		}
 		return true;
 	}
 	#endregion
