@@ -52,9 +52,9 @@ public class Door : MonoBehaviour {
 	}
 
 	private void SwitchToNextState() {
-		Debug.Log("Switchign from state "+curState);
+		
 		curState++;
-		Debug.Log("To state "+curState);
+
 		if((int)curState>lastEnum) curState = (doorStates)0;
 		if(curState == doorStates.closed) col.isTrigger = false;
 		else col.isTrigger = true;
@@ -80,7 +80,7 @@ public class Door : MonoBehaviour {
 	}
 
 	private void JammTheDoor() {
-		Debug.Log("JAMMMEEEEDD!");
+		
 		bJammed = true;
 		//SwitchToState(doorStates.closed);
 	}
