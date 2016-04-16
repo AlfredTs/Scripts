@@ -22,7 +22,7 @@ public class BreakeableThing : MonoBehaviour {
 		for(int i = 0; i<transform.childCount; i++) {
 			Transform ch = transform.GetChild(i);
 			pieces[i] = ch.GetComponent<BrokenPiece>();
-			/*
+	/*
 			pieces[i].col = ch.GetComponent<Collider>();
 			pieces[i].rb = ch.GetComponent<Rigidbody>();
 			pieces[i].mesh = ch.GetComponent<MeshRenderer>();

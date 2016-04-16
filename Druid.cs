@@ -13,6 +13,8 @@ public class Druid : MonoBehaviour {
 	public Vector3[] touchNormals;
 
 	public float miceMovementSpeed;
+	public DruidSkin[] skins = new DruidSkin[5];
+
 	//State
 	public float curHealth;
 	public float curMovmentSpeed;
@@ -41,6 +43,11 @@ public class Druid : MonoBehaviour {
 
 
 	#region LifeCycle 
+
+	private void Awake() {
+		foreach (DruidSkin skin in skins) skin.gameObject.SetActive(false);
+	}
+
 	private void Start() {
 		rb = GetComponent<Rigidbody>();
 
@@ -125,7 +132,12 @@ public class Druid : MonoBehaviour {
 
 	#region shapeShifting 
 	public bool shiftToState(shapeshiftStates state) {
+		
+		skins[(int)(curShape)].gameObject.SetActive(false);
+		skins[(int)(state)].gameObject.SetActive(true);
+
 		curShape = state;
+
 		switch (state) {
 		case shapeshiftStates.druid:
 			curMovmentSpeed = baseMovementSpeed;

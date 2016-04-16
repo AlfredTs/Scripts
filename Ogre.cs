@@ -26,7 +26,7 @@ public class Ogre : MonoBehaviour {
 	public int curPatrolignPoint;
 
 	//other stuff
-	private bool bReachedDestination = true;
+	public bool bReachedDestination = true;
 	//druid info
 	public Vector3 directionToDruid;
 	public Vector3 lastSeenPosition;
@@ -87,8 +87,12 @@ public class Ogre : MonoBehaviour {
 
 				bDruidVisible = true;
 				//ogreState = aiState.chasing;
-				lastSeenPosition = hit.point;
+				lastSeenPosition = Druid.instance.transform.position;
 			}
+		}
+		else {
+			bDruidVisible = false;
+			bDruidAttackable = false;
 		}
 
 		UpdateAI();
@@ -100,6 +104,9 @@ public class Ogre : MonoBehaviour {
 			patrolingTimer = patrolStopTime;
 			StopAllCoroutines();
 			bReachedDestination = true;
+			Debug.Log("State changed to "+ogreState);
+
+
 		}
 		switch (ogreState) {
 		case aiState.patrolling:
@@ -116,9 +123,13 @@ public class Ogre : MonoBehaviour {
 			else if(bDruidAttackable) ogreState = aiState.attacking;
 			break;
 		case aiState.chasing:
-			if(!bReachedDestination) StartCoroutine(GotoPoint(lastSeenPosition));
+			if(bReachedDestination) {
+				Debug.Log("SHUFFELING!");
+				StartCoroutine(GotoPoint(lastSeenPosition));
+			}
 			awarenesLevel = seenAwareness;
 			if(!bDruidVisible) ogreState = aiState.aware;
+			if(bDruidAttackable) ogreState = aiState.attacking;
 			break;
 		case aiState.attacking:
 			Attack();
@@ -148,8 +159,10 @@ public class Ogre : MonoBehaviour {
 		point.y = transform.position.y;
 		point.z = transform.position.z;
 		Vector3 dir = (point-transform.position).normalized;
-		Debug.Log(Time.frameCount+" gotopoint coroutine in progress");
-		while(Vector3.Distance(point,transform.position)>=1) {
+
+		while(Vector3.Distance(point,transform.position)>=0.1f) {
+			//Debug.Log(Time.frameCount+" gotopoint coroutine in progress");
+			if(ogreState == aiState.attacking) break;
 			transform.Translate(dir*Time.deltaTime*walkingSpeed);
 			yield return new WaitForEndOfFrame();
 		}

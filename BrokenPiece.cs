@@ -7,7 +7,7 @@ public class BrokenPiece : MonoBehaviour {
 	public Collider col;
 	public MeshRenderer mesh;
 
-	private void Start() {
+	private void Awake() {
 		rb = GetComponent<Rigidbody>();
 		col = GetComponent<Collider>();
 		mesh = GetComponent<MeshRenderer>();
