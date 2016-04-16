@@ -8,6 +8,9 @@ public class Druid : MonoBehaviour {
 
 	public float baseMovementSpeed = 10;
 	public float jumpForce = 10;
+	public float shootCooldown = 0.5f;
+	public float shootTimer;
+
 
 
 	public Vector3[] touchNormals;
@@ -22,8 +25,12 @@ public class Druid : MonoBehaviour {
 	public PhysState physState;
 	public int[] shiftSpirits = new int[5];
 
+	//Prefabs
+	public Projectile bullet;
+
 	//References
 	private Rigidbody rb;
+	private Transform shootingSocket;
 
 	#region Singelton
 	private static Druid _instance;
@@ -46,13 +53,21 @@ public class Druid : MonoBehaviour {
 
 	private void Awake() {
 		foreach (DruidSkin skin in skins) skin.gameObject.SetActive(false);
+		for(int i = 0; i< skins[(int)(shapeshiftStates.druid)].transform.childCount; i++) {
+			if( skins[(int)(shapeshiftStates.druid)].transform.GetChild(i).name == "shootingSocket") {
+				shootingSocket = skins[(int)(shapeshiftStates.druid)].transform.GetChild(i);
+			}
+		}
+		if(shootingSocket == null) Debug.LogWarning("Shooting socket was not initiated!");
 	}
 
 	private void Start() {
 		rb = GetComponent<Rigidbody>();
 
 	}
-
+	private void Update() {
+		shootTimer+=Time.deltaTime;
+	}
 	public void ResetDruid(Vector3 location = new Vector3()) {
 		curMovmentSpeed = baseMovementSpeed;
 		curHealth = baseHealth;
@@ -65,6 +80,12 @@ public class Druid : MonoBehaviour {
 
 	private void Die() {
 		
+	}
+	public void Fire() {
+		if(curShape == shapeshiftStates.druid && shootingSocket!=null && shootTimer>=shootCooldown) {
+			shootTimer = 0;
+			Instantiate(bullet,shootingSocket.position, transform.rotation);
+		}
 	}
 	#endregion
 

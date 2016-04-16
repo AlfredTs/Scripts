@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour {
 			Druid.instance.DoJump();
 		}
 
+		if(Input.GetButtonDown("Fire1")) {
+			Druid.instance.Fire();
+		}
 
 		if(Input.GetKeyDown("1")) {
 			if(!Druid.instance.shiftToState(shapeshiftStates.druid)) GameController.instance.PlayerFailedSwitching();

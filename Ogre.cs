@@ -8,6 +8,7 @@ public class Ogre : MonoBehaviour {
 	public aiState ogreState;
 	private aiState prevState;
 	public float patrolingTimer;
+	public bool bAlive = true;
 
 
 	//settings
@@ -58,6 +59,7 @@ public class Ogre : MonoBehaviour {
 	}
 
 	private void Update() {
+		if(!bAlive) return;
 		if(anim==null) anim = GetComponent<Animator>();
 		if(Druid.instance.curShape != shapeshiftStates.stone) {
 			directionToDruid = (Druid.instance.transform.position-transform.position).normalized;
@@ -154,6 +156,16 @@ public class Ogre : MonoBehaviour {
 		return patrolPoints[curPatrolignPoint];
 	}
 
+	public void TakeDamage(float dmg) {
+		health-=dmg;
+		if(health<=0) {
+			Die();
+		}
+	}
+
+	public void Die() {
+		
+	}
 	IEnumerator GotoPoint(Vector3 point) {
 		bReachedDestination = false;
 		point.y = transform.position.y;
@@ -163,11 +175,14 @@ public class Ogre : MonoBehaviour {
 		while(Vector3.Distance(point,transform.position)>=0.1f) {
 			//Debug.Log(Time.frameCount+" gotopoint coroutine in progress");
 			if(ogreState == aiState.attacking) break;
+			if(!bAlive) break;
 			transform.Translate(dir*Time.deltaTime*walkingSpeed);
 			yield return new WaitForEndOfFrame();
 		}
 		bReachedDestination = true;
 
 	}
+
+
 		
 }
