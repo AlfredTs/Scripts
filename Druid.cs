@@ -105,7 +105,8 @@ public class Druid : MonoBehaviour {
 
 	#region shapeShifting 
 	public bool shiftToState(shapeshiftStates state) {
-		return false;
+		curShape = state;
+		return true;
 	}
 	#endregion
 }
