@@ -38,12 +38,17 @@ public class Druid : MonoBehaviour {
 	#region LifeCycle 
 	private void Start() {
 		rb = GetComponent<Rigidbody>();
-		curMovmentSpeed = baseMovementSpeed;
-		curHealth = baseHealth;
+
 	}
 
-	private void ResetDruid(Vector3 location = new Vector3()) {
-				
+	public void ResetDruid(Vector3 location = new Vector3()) {
+		curMovmentSpeed = baseMovementSpeed;
+		curHealth = baseHealth;
+		transform.position = location;
+		physState = PhysState.Nan;
+		shiftToState(shapeshiftStates.druid);
+		if(rb==null) rb = GetComponent<Rigidbody>();
+		rb.velocity = new Vector3();
 	}
 
 	#endregion
