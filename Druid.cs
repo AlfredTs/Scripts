@@ -81,9 +81,10 @@ public class Druid : MonoBehaviour {
 		ContactPoint[] touchPoints = collisionInfo.contacts;
 		touchNormals = new Vector3[touchPoints.Length];
 		bool bIsFloorContact = false;
+
 		for(int i = 0; i<touchPoints.Length; i++) {
 			touchNormals[i] = touchPoints[i].normal;
-			if(touchPoints[i].normal.y == 1) {
+			if(touchPoints[i].normal.y >=0.98) {
 
 				bIsFloorContact = true;
 				break;
