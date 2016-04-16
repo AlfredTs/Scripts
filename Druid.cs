@@ -51,6 +51,9 @@ public class Druid : MonoBehaviour {
 		rb.velocity = new Vector3();
 	}
 
+	private void Die() {
+		
+	}
 	#endregion
 
 	#region movment
@@ -105,6 +108,10 @@ public class Druid : MonoBehaviour {
 	}
 	private  void OnTriggerExit(Collider other) {
 		if(other.gameObject.tag == Tags.Water)	physState = PhysState.Nan;
+	}
+
+	public void HitByTheDoor(Door it) {
+		Die();
 	}
 	#endregion
 

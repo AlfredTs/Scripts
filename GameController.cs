@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour {
 	public int score;
 	public Checkpoint[] checkPoints;
 	public int checkpointToStartFrom;
-
+	public GameStates curGameState = GameStates.pregame;
 	public Checkpoint checkpointToRestartFrom;
 	public int checkedScore;
 
@@ -55,4 +55,11 @@ public class GameController : MonoBehaviour {
 		checkedScore = score;
 	}
 	#endregion
+}
+public enum GameStates {
+	pregame,
+	game,
+	lost,
+	won,
+	processing
 }
